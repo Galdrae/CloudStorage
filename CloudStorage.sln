@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CloudStorage", "CloudStorage\CloudStorage.csproj", "{A621A309-41D3-433A-90AF-69773869D1E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogicLayer", "BusinessLogicLayer\BusinessLogicLayer.csproj", "{1E377E22-5A75-4718-9BEA-146B73712809}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccessLayer", "DataAccessLayer\DataAccessLayer.csproj", "{B55EF264-A905-4DA9-B6C2-159194A07258}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A621A309-41D3-433A-90AF-69773869D1E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A621A309-41D3-433A-90AF-69773869D1E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A621A309-41D3-433A-90AF-69773869D1E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A621A309-41D3-433A-90AF-69773869D1E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E377E22-5A75-4718-9BEA-146B73712809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E377E22-5A75-4718-9BEA-146B73712809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E377E22-5A75-4718-9BEA-146B73712809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E377E22-5A75-4718-9BEA-146B73712809}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B55EF264-A905-4DA9-B6C2-159194A07258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B55EF264-A905-4DA9-B6C2-159194A07258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B55EF264-A905-4DA9-B6C2-159194A07258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B55EF264-A905-4DA9-B6C2-159194A07258}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
