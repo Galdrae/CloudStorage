@@ -57,7 +57,7 @@ namespace DataAccessLayer
             SqlConnection connection = new SqlConnection(_connectionString);
             SqlCommand cmd = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.CommandText = "createUser2";
+            cmd.CommandText = "createUser";
             cmd.Connection = connection;
             cmd.Parameters.AddWithValue("@UserName", UserName);
             cmd.Parameters.AddWithValue("@FirstName", FirstName);
@@ -75,9 +75,98 @@ namespace DataAccessLayer
             return nofRow;
         }
 
+        // retrieve password base on UserName
+        public string retrievePassword(string inUserName)
+        {
+            string password = null;
+            try
+            {
+                SqlConnection connection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand();
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.CommandText = "retrievePasswordForLogin";
+                cmd.Connection = connection;
+                cmd.Parameters.AddWithValue("@UserName", inUserName);
+                connection.Open();
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    password = dr["Password"].ToString();
+                }
+                dr.Close();
+                dr.Dispose();
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+            return password;
+        }
+
+        // check if user exist in database 
+        public bool isUserExist(string inUserName)
+        {
+            bool isUserPresent = false;
+            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "isUserExist";
+            cmd.Connection = connection;
+            cmd.Parameters.AddWithValue("@UserName", inUserName);
+            connection.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+            {
+                isUserPresent = true;
+            }
+            dr.Close();
+            dr.Dispose();
+            connection.Close();
+            return isUserPresent;
+        }
+
+        // retrieve user profile base on user login name
+        public User retrieveUserProfile(string inUserName)
+        {
+            string userid, userName, firstName, dateBirth, lastName, password, contactNumber, email, secretQuestion,
+                secretAnswer;
+
+            SqlConnection connection = new SqlConnection(_connectionString);
+            SqlCommand cmd = new SqlCommand();
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.CommandText = "retrieveUserProfile";
+            cmd.Connection = connection;
+            cmd.Parameters.AddWithValue("@UserName", inUserName);
+            connection.Open();
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read())
+            {
+                userid = dr["UserID"].ToString();
+                userName = dr["UserName"].ToString();
+                firstName = dr["FirstName"].ToString();
+                lastName = dr["LastName"].ToString();
+                password = dr["Password"].ToString();
+                dateBirth = dr["DateBirth"].ToString();
+                contactNumber = dr["ContactNumber"].ToString();
+                email = dr["Email"].ToString();
+                secretQuestion = dr["SecretQuestion"].ToString();
+                secretAnswer = dr["SecretAnswer"].ToString();
+
+                User user = new User(userid, userName, firstName, lastName, password, dateBirth, contactNumber, email, secretQuestion,
+                secretAnswer);
+                dr.Close();
+                dr.Dispose();
+                connection.Close();
+                return user;
+            }
+            return new User();
+        }
+
         // private instance variables 
         private string _connectionString = Properties.Settings.Default.DBConnStr;
-        // private string _connectionString = ConfigurationManager.ConnectionStrings["DbConnectionString"].ToString();
         private string _userID = "";
         private string _userName = "";
         private string _firstName = "";

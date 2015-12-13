@@ -19,9 +19,12 @@ namespace CloudStorage.Account
 
             UserLogic userLogic = new UserLogic();
 
-            errorMessage = userLogic.createUser(tbUserName.Text, tbFirstName.Text, tbLastName.Text, tbPassword.Text, tbBirthDate.Text, tbContactNo.Text, tbEmail.Text, ddlSecretQuestion.Text, tbSecretAnswer.Text);
+            errorMessage = userLogic.createUser(tbUserName.Text, tbFirstName.Text, tbLastName.Text, tbPassword.Text, tbBirthDate.Text,
+                tbContactNo.Text, tbEmail.Text, ddlSecretQuestion.Text, tbSecretAnswer.Text);
 
             lbErrorMessage.Text = errorMessage;
+
+            if (lbErrorMessage.Text == "User Created.") { Response.Redirect("Login.aspx"); }
         }
     }
 }

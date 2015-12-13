@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using CloudStorage.Models;
+using DataAccessLayer;
+using BusinessLogicLayer;
 
 namespace CloudStorage.Account
 {
@@ -14,32 +16,51 @@ namespace CloudStorage.Account
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            RegisterHyperLink.NavigateUrl = "Register";
-            OpenAuthLogin.ReturnUrl = Request.QueryString["ReturnUrl"];
-            var returnUrl = HttpUtility.UrlEncode(Request.QueryString["ReturnUrl"]);
-            if (!String.IsNullOrEmpty(returnUrl))
+            if (Session["NoLoginMessage"] != null) { lbMessage.Text = Session["NoLoginMessage"].ToString(); }
+
+            // clear messages
+            if (!IsPostBack)
             {
-                RegisterHyperLink.NavigateUrl += "?ReturnUrl=" + returnUrl;
+                Session.Abandon();
             }
         }
 
         protected void LogIn(object sender, EventArgs e)
         {
-            if (IsValid)
+            // Attribute declaration for controls
+            string userName;
+            string password;
+
+            // Initilize controls
+            userName = tbUserName.Text;
+            password = tbPassword.Text;
+
+            // Call method from logic class
+            UserLogic userLogic = new UserLogic();
+
+            // Check if user exist in database
+            if (!userLogic.isUserExist(userName))
             {
-                // Validate the user password
-                var manager = new UserManager();
-                ApplicationUser user = manager.Find(UserName.Text, Password.Text);
-                if (user != null)
-                {
-                    IdentityHelper.SignIn(manager, user, RememberMe.Checked);
-                    IdentityHelper.RedirectToReturnUrl(Request.QueryString["ReturnUrl"], Response);
-                }
-                else
-                {
-                    FailureText.Text = "Invalid username or password.";
-                    ErrorMessage.Visible = true;
-                }
+                lbMessage.Text = "Wrong login name or password.";
+            }
+            else if (password != userLogic.retreivePassword(userName))
+            {
+                lbMessage.Text = "Wrong username or password.";
+            }
+            // if correct password
+            else if (password == userLogic.retreivePassword(userName))
+            {
+                // retrieve data from database and store in session
+                User user = userLogic.retrieveUserProfile(userName);
+                // These are individual fields from database that can be used to pass around.
+                // *NOTE* Session duration is currently set at 20 mins after idle,
+                // after which it will clear all sessions and force user to relog.
+                // change settings at web.config file
+                Session["UserID"] = user.UserID;
+                Session["UserName"] = user.UserName;
+
+                lbMessage.Text = "Logged In";
+                Response.Redirect("~/Home(LoggedIn).aspx");
             }
         }
     }

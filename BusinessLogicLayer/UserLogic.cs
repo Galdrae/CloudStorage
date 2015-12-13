@@ -38,5 +38,23 @@ namespace BusinessLogicLayer
             }
             return errorMessage;
         }
+
+        // used for login
+        public String retreivePassword(string userName)
+        {
+            return user.retrievePassword(userName);
+        }
+
+        // check if user exist in database
+        public bool isUserExist(string userid)
+        {
+            return user.isUserExist(userid);
+        }
+
+        // pull user profile from database
+        public User retrieveUserProfile(string userLoginName)
+        {
+            return user.retrieveUserProfile(userLoginName);
+        }
     }
 }
